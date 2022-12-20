@@ -1,0 +1,88 @@
+=>Comments
+
+(i)Single line comment
+    #comment here (no need close #,Space or without space is OK)
+    -- comment here (Space needed)
+    /* comment */
+
+
+(ii)Multi line comment
+	/*
+		multi comment one
+		multi comment two
+	*/
+	
+=>Single comment 
+
+SELECT (1+1); #comment here	
+SELECT (1+1); # comment here	
+SELECT (1+1);-- comment here
+
+*error
+SELECT (1+1);-- comment here
+
+SELECT (1+1); /*comment here*/	
+SELECT (1+1);/* comment here */	
+_______________________________________________________
+
+=>Create User
+
+=Syntax :
+
+CREATE USER username IDENTIFIED BY 'password';
+
+CREATE USER 'kotha001'@'localhost' IDENTIFIED BY '123456789'; #localhost ka server name
+
+\q
+mysql -u kotha001 -p '123456789';
+SELECT USER();
+SHOW DATABASES; -- result = only 1 sample database
+SELECT USER FROM mysql.user; -- result= denied
+
+=>View Existing Users
+SELECT USER FROM mysql.user;
+SELECT USER FROM mysql.user WHERE USER LIKE'k%';
+
+
+\q
+mysql -u kotha -p 'datalandtechnology';
+
+
+Note : All PRIVILEGES (it gives all privileges or access to new user)
+	   CREATE ( create databases and create tabel)
+	   DROP   ( drop databases and drop tables)
+
+	   INSERT (specific table)
+	   SELECT (specific table)
+	   UPDATE (specific table)
+	   DELETE (specific table)
+
+= Syntax : (databasename.tablename)
+For all privileges
+GRANT ALL PRIVILEGES ON *.* TO 'username'@'localhost';
+FLUSH PRIVILEGES;
+
+GRANT CREATE,SELECT,INSERT ON *.* TO 'username'@'localhost';
+FLUSH PRIVILEGES;
+
+*error = Access Denied because give the access from second user
+GRANT ALL PRIVILEGES ON *.* TO 'kotha001'@'localhost';
+
+=Show grant to each user
+SHOW GRANTS FOR 'kotha'@'localhost';
+
+SHOW GRANTS FOR 'kotha001'@'localhost';
+
+\q
+mysql -u root -p 'sqlpassword20201A';
+
+GRANT ALL PRIVILEGES ON *.* TO 'kotha001'@'localhost';
+FLUSH PRIVILEGES;
+
+SHOW GRANTS FOR 'kotha001'@'localhost';
+
+\q
+mysql -u kotha001 -p '123456789';
+SELECT USER();
+SHOW DATABASES; -- result = only 1 sample database
+SELECT USER FROM mysql.user; -- result= denied

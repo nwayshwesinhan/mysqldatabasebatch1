@@ -1,0 +1,50 @@
+=>VERSION CHECK
+(Method 1 = in server)
+mysql -V (- mean hiphan)
+
+(METHOD 2 = in mysql)
+help;(shortcut = \h)(check/view all data in mysql)
+status (shortcut = \s) (\-backward select)
+
+_________________________________________________________
+
+ =>Arithmetic Operators(5types)
+
+ Operator               Meaning								Operates On
+ + (Add)				Addition							Numeric Value
+ - (Subtract)			Subraction							Numeric Value
+ * (Multiply)			Multiplication						Numeric Value
+ / (Divide)				Division							Numeric Value
+ % (Modulus)			Returns remainder of a division		Numeric Value
+
+
+ Addition Operator = Syntax
+
+ SELECT 10 + 2;
+ SELECT '10' + 2;
+ SELECT '10' + '2';
+ SELECT 10+2,20 + 30;
+ SELECT '100' + '200','300' + '400';
+
+ Subtraction Operator = Syntax
+
+ SELECT 10 -2;
+ SELECT 20-10, 30 - 15;
+ SELECT '1000'-'500', '500' - '700';
+ SELECT 20 * '3' , '100' * 5;
+
+ Division Operator = Syntax
+
+ SELECT 10 / 2;
+ SELECT 2/3 , 3 / 5;
+ SELECT 100 / '25', '2000' / 2 , 12 /0;
+
+ SELECT 20 / 3;
+ SELECT 20 DIV 3;
+ SELECT 5 DIV 2, -40 DIV 3, -100 DIV -7;
+ SELECT 5 DIV 2,20/5;
+
+ MODULUS OPERATOR = SYNTAX;
+
+ SELECT 10 % 3;
+ SELECT 2%3,10 % 3;

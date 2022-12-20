@@ -1,0 +1,192 @@
+=>JOIN Challenging 1
+
+CREATE TABLE IF NOT EXISTS members(
+id INT AUTO_INCREMENT PRIMARY KEY,
+firstname VARCHAR(20),
+lastname VARCHAR(20),
+status INT default 1
+);
+
+DESC members;
+
+INSERT INTO members(firstname,lastname)
+VALUES ('aung','aung'),
+('maung','maung'),
+('kyaw','kyaw'),
+('zaw','zaw'),
+('su','su'),
+('aye','aye'),
+('yu','yu');
+
+SELECT * FROM members;
+
+
+CREATE TABLE IF NOT EXISTS mbphones(
+id INT AUTO_INCREMENT,
+phone VARCHAR(15) NOT NULL,
+member_id INT,
+PRIMARY KEY(id),
+FOREIGN KEY(member_id) REFERENCES members(id) ON DELETE CASCADE
+);
+
+DESC mbphones;
+
+INSERT INTO mbphones(phone,member_id)
+VALUES ('09123456',1),
+('09123457',1),
+('09123458',3),
+('09123459',2),
+('09123455',4),
+('09123457',5);
+
+SELECT * FROM mbphones;
+
+
+CREATE TABLE IF NOT EXISTS mbpoints(
+id INT AUTO_INCREMENT PRIMARY KEY,
+point INT default 0,
+member_id INT,
+FOREIGN KEY(member_id) REFERENCES members(id) ON DELETE CASCADE
+);
+
+DESC mbpoints;
+
+INSERT INTO mbpoints(point,member_id)
+VALUES (50,1),
+(100,1),
+(200,3),
+(300,2),
+(400,4),
+(500,5);
+
+SELECT * FROM mbpoints;
+
+
+INSERT INTO members(firstname,lastname,status)
+VALUES ('thu','thu',2),
+('tun','tun',2),
+('yu','ya',2);
+
+SELECT * FROM members;
+
+--------
+=>Report
+
+SELECT * FROM members;
+SELECT * FROM mbphones;
+SELECT * FROM mbpoints;
+
+
+=>Active and Block Members Report
+
+SELECT CONCAT(firstname," ",lastname) AS 'active_members' FROM members
+WHERE status = 1;
+
+SELECT CONCAT(firstname," ",lastname) AS 'blocked_members' FROM members
+WHERE status = 2;
+
+
+SELECT CONCAT(firstname," ",lastname) AS name,
+	CASE
+		WHEN status = 1 THEN 'Active'
+		ELSE "Blocked"
+	END AS "Status"
+FROM members;
+
+
+=>Phone Number Report
+
+SELECT CONCAT(firstname," ",lastname) AS name,phone FROM members
+LEFT JOIN mbphones
+ON members.id = mbphones.member_id;
+
+=>IS NOT NULL
+SELECT CONCAT(firstname," ",lastname) AS name,
+	IF (mbphones.phone IS NOT NULL,mbphones.phone,"No Number") AS phone
+FROM members
+LEFT JOIN mbphones
+ON members.id = mbphones.member_id;
+
+
+SELECT CONCAT(firstname," ",lastname) AS name,
+	CASE
+		WHEN mbphones.phone IS NOT NULL THEN mbphones.phone
+	ELSE "No Number"
+	END AS phone
+FROM members
+LEFT JOIN mbphones
+ON members.id = mbphones.member_id;
+
+
+=>IS NULL
+SELECT CONCAT(firstname," ",lastname) AS name,
+	IF(mbphones.phone IS NULL,"No Number",mbphones.phone) AS phone
+FROM members
+LEFT JOIN mbphones
+ON members.id = mbphones.member_id;
+
+--------
+
+=>Point Report
+
+SELECT CONCAT(firstname," ",lastname) AS name,point FROM members
+LEFT JOIN mbpoints
+ON members.id = mbpoints.member_id;
+
+SELECT CONCAT(firstname," ",lastname) AS name,SUM(point) FROM members
+LEFT JOIN mbpoints
+ON members.id = mbpoints.member_id
+GROUP BY members.id;
+
+
+=>Multi LEFT JOIN
+
+SELECT firstname,lastname,phone,point
+FROM members
+LEFT JOIN mbphones
+ON members.id = mbphones.member_id
+LEFT JOIN mbpoints
+ON members.id = mbpoints.member_id;
+
+
+SELECT firstname,lastname,phone,point
+FROM members
+LEFT JOIN mbphones
+ON members.id = mbphones.member_id
+RIGHT JOIN mbpoints
+ON members.id = mbpoints.member_id;
+
+SELECT members.firstname,members.lastname,mbphones.phone,mbpoints.point
+FROM members
+LEFT JOIN mbphones
+ON members.id = mbphones.member_id
+LEFT JOIN mbpoints
+ON members.id = mbpoints.member_id;
+
+
+*error
+SELECT firstname,lastname,phone,point
+FROM members AS mb
+LEFT JOIN mbphones AS mbph
+ON members.id = mbphones.member_id
+LEFT JOIN mbpoints
+ON members.id = mbpoints.member_id;
+
+
+SELECT firstname,lastname,phone,point
+FROM members AS mb
+LEFT JOIN mbphones AS mbph
+ON mb.id = mbph.member_id
+RIGHT JOIN mbpoints
+ON mb.id = mbpt.member_id;
+
+
+
+SELECT mb.firstname,mb.lastname,mbph.phone,mbpt.point
+FROM members AS mb
+LEFT JOIN mbphones AS mbph
+ON mb.id = mbph.member_id
+LEFT JOIN mbpoints mbpt
+ON mb.id = mbpt.member_id;
+
+____________________________________________

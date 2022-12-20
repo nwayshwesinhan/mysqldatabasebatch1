@@ -1,0 +1,283 @@
+=>UNIQUE Constraint
+
+=CONSTRAINT
+PRIMARY KEY
+FOREIGN KEY
+NOT NULL
+UNIQUE
+DEFAULT
+CHECK
+
+
+=Syntax:
+
+Method 1 (single column)
+
+CREATE TABLE IF NOT EXISTS tablename(
+column1 datatype,
+column2 datatype UNIQUE,
+column3 datatype,
+....
+);
+
+Method 2 (single column)
+
+CREATE TABLE IF NOT EXISTS tablename(
+column1 datatype,
+column2 datatype,
+column3 datatype,
+....
+UNIQUE(column2)
+);
+
+
+Method 1 (multi column)
+
+CREATE TABLE IF NOT EXISTS tablename(
+column1 datatype UNIQUE,
+column2 datatype UNIQUE,
+column3 datatype UNIQUE,
+....
+);
+
+__________________________________________
+
+=>Method 1 (Single Column)
+
+CREATE TABLE IF NOT EXISTS countries(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(50) NOT NULL UNIQUE,
+	capital VARCHAR(50) NOT NULL,
+	currencyname VARCHAR(30),
+	isocode VARCHAR(10)
+);
+
+=>Method 2 (Single Column)
+
+CREATE TABLE IF NOT EXISTS countries(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(50) NOT NULL,
+	capital VARCHAR(50) NOT NULL,
+	currencyname VARCHAR(30),
+	isocode VARCHAR(10),
+	UNIQUE(name)
+);
+
+DESC countries;
+SHOW INDEX FROM countries;
+
+=>DROP Unique key
+ALTER TABLE countries DROP INDEX name;
+
+
+DROP TABLE IF EXISTS countreis;
+
+
+INSERT INTO countries(name,capital,currencyname,isocode)
+VALUES('myanmar','naypyidaw','myanmar kyat','mmk'),
+('thailand','bangkok','thai baht','thb'),
+('indonesia','jakata','indonesia rupiah','idr'),
+('srilanka','colombo','srilanka rupee','lkr');
+
+SELECT * FROM countries;
+
+*error
+INSERT INTO countries(name,capital,currencyname,isocode)
+VALUES('myanmar','yangon','burmese kyat','mmk');
+
+*error
+UPDATE countries SET name = "thailand" WHERE id = 4;
+
+*can
+UPDATE countries SET name = "sri lanka" WHERE id = 4;
+UPDATE countries SET capital = "yangon" WHERE id = 1;
+
+SELECT * FROM countries;
+
+__________________________________________
+
+=>Method 1 (Multi Column)
+
+CREATE TABLE IF NOT EXISTS cashiers(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(50) NOT NULL,
+	email VARCHAR(50) NOT NULL UNIQUE,
+	password VARCHAR(100) NOT NULL,
+	phone VARCHAR(15) UNIQUE
+);
+
+
+DESC cashiers;
+SHOW INDEX FROM cashiers;
+
+=>DROP Unique key
+ALTER TABLE cashiers DROP INDEX phone;
+
+
+DROP TABLE IF EXISTS cashiers;
+
+
+INSERT INTO cashiers(name,email,password,phone)
+VALUES('susu','susu@gmail.com',MD5(SHA1(123456)),'0911111'),
+('yuyu','yuyu@gmail.com',MD5(SHA1(123456)),'0922222'),
+('hlahla','hlahla@gmail.com',MD5(SHA1(123456)),'0933333');
+
+SELECT * FROM cashiers;
+
+
+*error
+INSERT INTO cashiers(name,email,password,phone)
+VALUES('susu','susu@gmail.com',MD5(SHA1(123456)),'0944444');
+
+
+*error
+INSERT INTO cashiers(name,email,password,phone)
+VALUES('mama','mama@gmail.com',MD5(SHA1(123456)),'0933333');
+
+*error
+INSERT INTO cashiers(name,email,password,phone)
+VALUES('mama','yuyu@gmail.com',MD5(SHA1(123456)),'0933333');
+
+
+*can
+INSERT INTO cashiers(name,email,password)
+VALUES('chitsu','chitsu@gmail.com',MD5(SHA1(123456)));
+
+*can
+INSERT INTO cashiers(name,email,password)
+VALUES('ayeaye','ayeaye@gmail.com',MD5(SHA1(123456)));
+
+
+SELECT * FROM cashiers;
+
+ALTER TABLE cashiers DROP INDEX phone;
+DESC cashiers;
+SHOW INDEX FROM cashiers;
+
+
+*can
+INSERT INTO cashiers(name,email,password,phone)
+VALUES('mama','mama@gmail.com',MD5(SHA1(123456)),'0933333');
+
+SELECT * FROM cashiers;
+
+__________________________________________
+
+=>CONSTRAINT
+
+CREATE TABLE IF NOT EXISTS cashiers(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(50) NOT NULL,
+	email VARCHAR(50) NOT NULL,
+	password VARCHAR(100) NOT NULL,
+	phone VARCHAR(15),
+	CONSTRAINT uc_email_phone UNIQUE(email,phone)
+);
+
+DESC cashiers;
+SHOW INDEX FROM cashiers;
+
+
+INSERT INTO cashiers(name,email,password,phone)
+VALUES('susu','susu@gmail.com',MD5(SHA1(123456)),'0911111'),
+('yuyu','yuyu@gmail.com',MD5(SHA1(123456)),'0922222'),
+('hlahla','hlahla@gmail.com',MD5(SHA1(123456)),'0933333');
+
+SELECT * FROM cashiers;
+
+
+*can
+INSERT INTO cashiers(name,email,password,phone)
+VALUES('mama','susu@gmail.com',MD5(SHA1(123456)),'0944444');
+SELECT * FROM cashiers;
+
+*can
+INSERT INTO cashiers(name,email,password,phone)
+VALUES('mama','mama@gmail.com',MD5(SHA1(123456)),'0933333');
+SELECT * FROM cashiers;
+
+*can
+INSERT INTO cashiers(name,email,password,phone)
+VALUES('mama','yuyu@gmail.com',MD5(SHA1(123456)),'0933333');
+SELECT * FROM cashiers;
+
+*error
+INSERT INTO cashiers(name,email,password,phone)
+VALUES('mama','yuyu@gmail.com',MD5(SHA1(123456)),'0933333');
+SELECT * FROM cashiers;
+
+
+DESC cashiers;
+SHOW INDEX FROM cashiers;
+
+ALTER TABLE cashiers DROP INDEX uc_email_phone;
+DESC cashiers;
+SHOW INDEX FROM cashiers;
+
+DROP TABLE IF EXISTS cashiers;
+
+__________________________________________
+
+=>UNIQUE Vs CONSTRAINT
+
+CREATE TABLE IF NOT EXISTS cashiers(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(50) NOT NULL,
+	email VARCHAR(50) NOT NULL,
+	password VARCHAR(100) NOT NULL,
+	phone VARCHAR(15),
+	UNIQUE(name),
+	CONSTRAINT uc_email_phone UNIQUE(email,phone)
+);
+
+DESC cashiers;
+SHOW INDEX FROM cashiers;
+
+
+INSERT INTO cashiers(name,email,password,phone)
+VALUES('susu','susu@gmail.com',MD5(SHA1(123456)),'0911111'),
+('yuyu','yuyu@gmail.com',MD5(SHA1(123456)),'0922222'),
+('hlahla','hlahla@gmail.com',MD5(SHA1(123456)),'0933333');
+
+SELECT * FROM cashiers;
+
+
+*can
+INSERT INTO cashiers(name,email,password,phone)
+VALUES('mama','susu@gmail.com',MD5(SHA1(123456)),'0944444');
+SELECT * FROM cashiers;
+
+*error
+INSERT INTO cashiers(name,email,password,phone)
+VALUES('mama','mama@gmail.com',MD5(SHA1(123456)),'0933333');
+SELECT * FROM cashiers;
+
+
+*can
+INSERT INTO cashiers(name,email,password,phone)
+VALUES('nandar','yuyu@gmail.com',MD5(SHA1(123456)),'0933333');
+SELECT * FROM cashiers;
+
+*error
+INSERT INTO cashiers(name,email,password,phone)
+VALUES('marlar','yuyu@gmail.com',MD5(SHA1(123456)),'0933333');
+SELECT * FROM cashiers;
+
+__________________________________________
+
+
+
+
+
+
+SALES
+INVID
+INVDATE
+CAHID
+CUID
+
+customer
+id
+cuid
+YGNCU001
+YGNCU002

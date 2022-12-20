@@ -1,0 +1,396 @@
+=>CREATE TABLE
+
+*SERVER LOGIN
+*DATABASE SERVER LOGIN
+*CHOOOSE DATABASE ( DATABASE CHECK )
+
+=>CHECK TABLE;
+SHOW TABLES;
+
+
+=>CREATE TABLE = Syntax
+
+CREATE TABLE table_names(
+		colum1 datatype,
+		colum2 datatype,
+		colum3 datatype,
+		.........
+); 
+
+CREATE TABLE persons(
+		personid int,
+		firstname varchar(225),
+		lastname varchar(255),
+		city varchar(255),
+		address varchar(255)
+);
+
+SHOW TABLES;
+
+
+=>Table Info (Describe)
+
+Method 1
+DESCRIBE persons;
+DESC persons;
+
+Method 2
+SHOW COLOUMNS FORM persons;
+
+* Check table from current db to another db
+SHOW COLUMNS FROM wdf2001.persons;
+SHOW COLUMNS FROM persons IN wdf2001;
+
+
+
+
+
+_________________________________________
+
+
+CREATE TABLE countries(
+		countryid int,
+		countryname varchar(255),
+		capitalname varchar(255),
+		currency varchar(255)
+);
+
+
+=> DELETE TABLE = Syntax
+method1
+DROP TABLE tablename;
+method2 MULTI DROP
+DROP TABLE tablename1,tablenam2,tablename3,.....;
+
+DROP TABLE IF EXITS tablenames;
+
+
+DROP TABLE countries;
+
+
+=> No Option
+
+CREATE TABLE countries(
+	countryid int NOT NULL,
+	countryname varchar(255) NOT NULL,
+	capitalname varchar(255),
+	currency varchar(255)
+);
+
+SHOW TABLES;
+
+DESC countries;
+
+____________________________________________________
+
+=Exercise
+
+CREATE TABLE abc(
+	name VARCHAR(10)
+);
+
+
+CREAT TABLE IF NOT EXISTS abc(
+	name VARCHAR(10)
+);
+
+SHOW WARNINGS;
+
+DROP TABLE IF EXITS abc;
+
+CREAT TABLE IF NOT EXISTS abc(
+	name VARCHAR(10)
+);
+
+CREAT TABLE IF NOT EXISTS efg(
+	name VARCHAR(10)
+);
+
+SHOW WARNINGS;
+
+DROP TABLE IF EXITS abc,efg;
+
+_____________________________________
+=>TURNCATE
+
+CREATE TABLE IF NOT EXITS monitors(
+	brand VARCHAR(100),
+	price DECIMAL(8,2)
+);
+
+DESC monitors;
+
+
+SHOW TABELS;
+
+INSERT INTO monitors(brand,price)
+VALUES ('asus',400000),
+('acer'500000)
+('aoc',600000),
+('dell',700000);
+
+SELECT * FROM monitors;
+
+					other db
+DROP TABLE IF EXITS kotha007.monitors;
+
+DROP TABLE IF EXITS monitors;
+_________________________________________________
+
+CREATE TABLE IF NOT EXITS monitors(
+	brand VARCHAR(100),
+	price DECIMAL(8,2)
+);
+
+DESC monitors;
+
+
+SHOW TABELS;
+
+INSERT INTO monitors(brand,price)
+VALUES ('asus',400000),
+('acer'500000)
+('aoc',600000),
+('dell',700000);
+
+SELECT * FROM monitors;
+
+DELETE FROM monitors;
+
+					other db
+DROP TABLE IF EXITS kotha007.monitors;
+
+DROP TABLE IF EXITS monitors;
+
+________________________________________________
+CREATE TABLE IF NOT EXITS monitors(
+	id NOT NULL AUTO_INCREMENT,
+	brand VARCHAR(100),
+	price DECIMAL(8,2),
+	PRIMARY KEY(id)
+);
+
+
+DESC monitors;
+
+
+SHOW TABELS;
+
+INSERT INTO monitors(brand,price)
+VALUES ('asus',400000),
+('acer'500000)
+('aoc',600000),
+('dell',700000);
+
+SELECT * FROM monitors;
+
+DELETE FROM monitors;
+
+INSERT INTO monitors(brand,price)
+VALUES ('asus',400000),
+('acer'500000)
+('aoc',600000),
+('dell',700000);
+
+					other db
+DROP TABLE IF EXITS kotha007.monitors;
+
+DROP TABLE IF EXITS monitors;
+___________________________________________
+
+
+=>TRUNCATE
+
+CREATE TABLE IF NOT EXITS monitors(
+	id NOT NULL AUTO_INCREMENT,
+	brand VARCHAR(100),
+	price DECIMAL(8,2),
+	PRIMARY KEY(id)
+);
+
+DESC monitors;
+
+SHOW TABELS;
+
+INSERT INTO monitors(brand,price)
+VALUES ('asus',400000),
+('acer'500000)
+('aoc',600000),
+('dell',700000);
+
+SELECT * FROM monitors;
+
+TRUNCATE TABLE monitors;
+
+SELECT * FROM monitors;
+
+__________________________
+
+=>RENAME TABLE
+
+=Syntax 
+ALTER TABLE oldtablename
+RENAME TO newtablename
+
+CREATE TABLE IF NOT EXISTS stock(
+item VARCHAR(100),
+stock INT
+);
+
+DESC stocks;
+
+INSERT INTO stocks(item,stock)
+VALUES('desktop',20'),
+('laptop',10),
+('projector',5);
+
+SELECT * FROM stocks;
+
+SHOW TABLES;
+
+ALTER TABLE stocks
+RENAME TO itaccessories;
+
+SHOW TABLES;
+
+SELECT * FROM itaccessories;
+
+
+__________________________________________
+
+=>Column Rename
+
+=>Add New Columns to table
+
+=Syntax : (Single)
+
+ALTER TABLE tablename
+ADD COLUMN columnname datatype;
+
+
+ALTER TABLE tablename
+ADD COLUMN columnname datatype FIRST;
+
+ALTER TABLE tablename
+ADD COLUMN columnname datatype AFTER existingcolumn;
+
+=Syntax : (Multi)
+
+ALTER TABLE tablename
+ADD COLUMN columnname1 datatype FIRST|AFTER existingcolumn,
+ADD COLUMN columnname2 datatype FIRST|AFTER existingcolumn;
+
+__________________
+
+=Exercise (Single)
+
+SELECT * FROM itaccessories;
+
+ALTER TABLE itaccessories
+ADD COLUMN brand VARCHAR(50);
+
+SELECT * FROM itaccessories;
+
+ALTER TABLE itaccessories
+ADD COLUMN unitprice DECIMAL(10,2) NOT NULL FIRST;
+
+SELECT * FROM itaccessories;
+
+ALTER TABLE itaccessories
+ADD COLUMN madeby VARCHAR(50) NOT NULL AFTER item;
+
+SELECT* FROM itaccessories;
+DESC itaccessories;
+
+-----------------------
+
+=Exercise ( Multi)
+
+ALTER TABLE itaccessories
+ADD COLUMN status INT DEFAULT 1 AFTER brand,
+ADD COLUMN createdby INT NOT NULL AFTER status;
+
+SELECT * FROM itaccessories;
+DESC itaccessories;
+
+
+INSERT INTO itaccessories(unitprice,item,madeby,stock,brand,createdby)
+VALUES(10,'keyboard','china',30,'a4tech',1),
+(20,'mouse','taiwan',50,'logitech',2);
+
+SELECT * FROM itaccessories;
+
+_______________________________________________
+
+=>RENAME Column in table 
+
+=Syntax
+
+ALTER TABLE tablename
+CHANGE COLUMN oldcolumnname newcolumnname datatype;
+
+SELECT * FROM itaccessories;
+DESC itaccessories;
+
+ALTER TABLE itaccessories
+CHANGE COLUMN stock totalqty INT;
+
+SELECT * FROM itaccessories;
+DESC itaccessories;
+
+
+ALTER TABLE itaccessories
+CHANGE COLUMN brand manufactureby VARCHAR(100);
+
+SELECT * FROM itaccessories;
+DESC itaccessories;
+
+__________________________________
+
+=> MODIFY Column in the table ( Change column datatype)
+
+= Syntax : ( Single)
+
+ALTER TABLE tablename
+MODIFY columnname datatype;
+
+
+=Syntax : ( Multi )
+
+ALTER TABLE tablename
+MODIFY columnname datatype,
+MODIFY columnname datatype;
+
+
+
+=eXERCISE (Single)
+
+DESC itaccessories;
+
+ALTER TABLE itaccessories
+MODIFY manufactureby VARCHAR(50);
+
+
+
+SELECT * FROM itaccessories;
+DESC itaccessories;
+
+
+*error =cuz of Null already in data table
+ALTER TABLE itaccessories
+MODIFY manufactureby VARCHAR(30) NOT NULL;
+
+
+ALTER TABLE itaccessories
+MODIFY item VARCHAR(50) NOT NULL;
+
+SELECT * FROM itaccessories;
+DESC itaccessories;
+
+----------
+
+=Exercise ( Multi )
+
+ALTER TABLE itaccessories
+MODIFY item VARCHAR(30) NOT NULL,
+MODIFY madeby VARCHAR(30) NOT NULL;

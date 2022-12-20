@@ -1,0 +1,106 @@
+=>Event
+
+Event Type (Schedule)
+(i) One Time Event
+(ii)Recurring Event
+
+=Syntax: One Time Event
+
+=Method 1
+CREATE EVENT eventname
+ON SCHEDULE AT timestamp
+DO
+--statements
+
+
+
+=Method 2(Not Dropped)
+CREATE EVENT eventname
+ON SCHEDULE AT timestamp
+ON COMPLETION PRESERVE
+DO
+--statements
+___________________________________________________
+
+=>(i)One Time Event
+
+vipcustomers
+id 
+name
+email
+emailverify
+
+CREATE TABLE IF NOT EXISTS vipcustomers(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(50) NOT NULL,
+	email VARCHAR(50) NOT NULL,
+	emailverify INT DEFAULT 2
+);
+
+DESC vipcustomers;
+
+INSERT INTO vipcustomers(name,email,emailverify)
+VALUES('aung aung','aungaung@gmail.com',1),
+('zaw zaw','zawzaw@gmail.com',1),
+('mya mya','myamya@gmail.com',1),
+('su su','susu@gmail.com',1),
+('yamin','yamin@gmail.com',1);
+
+
+INSERT INTO vipcustomers(name,email)
+VALUES('hla hla','hlahla@gmail.com'),
+('thaw thaw','thawthaw@gmail.com'),
+('kyaw kyaw','kyawkyaw@gmail.com');
+
+SELECT * FROM vipcustomers;
+
+CREATE EVENT vipcustomers_env
+ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 30 SECOND
+DO
+DELETE FROM vipcustomers WHERE emailverify = 2;
+
+CREATE EVENT vipcustomers_env
+ON SCHEDULE AT CURRENT_TIMESTAMP
+DO
+DELETE FROM vipcustomers WHERE emailverify = 2;
+
+CREATE EVENT vipcustomers_env
+ON SCHEDULE AT NOW()
+DO
+DELETE FROM vipcustomers WHERE emailverify = 2;
+
+SELECT * FROM vipcustomers;
+
+=> List all events
+SHOW EVENTS;
+
+SELECT * FROM vipcustomers;
+SHOW EVENTS;
+
+_______________________________
+
+=> Not Dropped after execution
+
+INSERT INTO vipcustomers(name,email)
+VALUES('hla hla','hlahla@gmail.com'),
+('thaw thaw','thawthaw@gmail.com'),
+('kyaw kyaw','kyawkyaw@gmail.com');
+
+SELECT * FROM vipcustomers;
+
+CREATE EVENT vipcustomers_env
+ON SHEDULE AT CURRENT_TIMESTAMP + INTERVAL 30 SECOND
+ON COMPLETION PRESERVE
+DO
+DELETE FROM vipcustomers WHERE emailverify = 2;
+
+=> List all events;
+SHOW EVENTS;
+
+SELECT * FROM vipcustomers;
+SHOW EVENTS;
+
+=>Drop Event
+DROP EVENT IF EXISTS vipcustomers_env;
+
+________________________________________________________

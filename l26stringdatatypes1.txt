@@ -1,0 +1,169 @@
+=>Mysql DATA TYPES(Version V8)
+
+*String Data Types (14 types)
+
+Data Types							Description
+
+1. CHAR(size)						A FIXED length string(can contain letters,numbers and special characters) can be from 0 to 255
+2. VARCHAR(size)					A VARIABLE length string(can contain letters,numbers and special characters) can be from 0 to 65535
+3. TEXT(size)						can be from 0 to 65535(65 kb)					
+4. TINYTEXT							can be from 0 to 255(255 bytes)
+5. MEDIUMTEXT						can be from 0 to 16777215 characters(16 MB)
+6. LONGTEXT							can be from 0 to 492967295 characters(4 GB)
+
+7. BINARY(size)
+8. VARBINARY(size)
+9. BLOB(size)
+10.TINYBLOB
+11.MEDIUMBLOB
+12.LONGBLOB
+
+13.ENUM('value1','value2','value3',....)
+14.SET('value1','value2','value3',....)
+
+_______________________________________________________________________
+
+=>About CHAR
+
+*CHAR is faster than VARCHAR
+*Static Datatype
+*eg: Telephone numbers,ZIP code
+*eg: Yes/No  Flags: Y/N
+*eg: Sex : Male/Female  Flags: M/F
+
+
+CHAR(4) VS VARCHAR(4)
+
+Value 			CHAR(4) 	Storage 	VARCHAR(4) 		Storage
+
+''				'    '		4 bytes		''				1 byte
+'ab'			'ab  '		4 bytes		'ab'			3 bytes
+'abc'			'abc '		4 bytes		'abc'			4 bytes
+'abcd'			'abcd'		4 bytes		'abcd'			5 bytes
+'abcdefg'		*error		*error		*error			*error	
+
+
+CREATE TABLE contacts(
+	name CHAR(5)
+);
+
+DESC contacts;
+
+
+INSERT INTO contacts(name)
+VALUES ('ko');
+
+INSERT INTO contacts(name)
+VALUES ('ko ko');
+
+INSERT INTO contacts(name)
+VALUES ('Hello');
+
+*error (data too long)
+INSERT INTO contacts(name)
+VALUES ('haynow');
+
+*error (data too long)
+INSERT INTO contacts(name)
+VALUES ('now hay');
+
+INSERT INTO contacts(name)
+VALUES ('aung'),
+		('maung')
+		('ko');
+
+INSERT INTO contacts(name)
+VALUES ('');
+
+DROP TABLE contacts;
+_______________________________________________________________________
+
+CREATE TABLE contacts(
+	name VARCHAR(5)
+);
+
+
+INSERT INTO contacts(name)
+VALUES ('ko');
+
+INSERT INTO contacts(name)
+VALUES ('ko ko');
+
+INSERT INTO contacts(name)
+VALUES ('hello');
+
+*error (data too long)
+INSERT INTO contacts(name)
+VALUES ('haynow');
+
+*error (data too long)
+INSERT INTO contacts(name)
+VALUES ('now hay');
+
+INSERT INTO contacts(name)
+VALUES ('aung'),
+		('maung')
+		('ko');
+
+INSERT INTO contacts(name)
+VALUES ('');
+_______________________________________________________________________
+
+=>CHAR() / VARCHAR() VS TEXT()
+
+CREATE TABLE mytests(
+	id INT DEFAULT 10,
+	name VARCHAR(50)
+);
+
+DESC mytests;
+
+INSERT INTO mytests(name) VALUES('aung aung');
+
+SELECT * FROM mytests;
+
+DROP TABLE mytests;
+
+
+CREATE TABLE mytests(
+	id INT,
+	name VARCHAR(50) DEFAULT 'nothing to show'
+);
+
+DESC mytests;
+
+INSERT INTO mytests(name) VALUES('aung aung');
+
+INSERT INTO mytests(id) VALUES(10);
+
+SELECT * FROM mytests;
+
+DROP TABLE mytests;
+
+
+CREATE TABLE mytests(
+	id INT DEFAULT 10,
+	name TEXT(50)
+);
+
+DESC mytests;
+
+INSERT INTO mytests(name) VALUES('aung aung');
+
+INSERT INTO mytests(id) VALUES(10);
+
+SELECT * FROM mytests;
+
+DROP TABLE mytests;
+
+*error (BLOB,TEXT,GEOMETRY or JSON can't have a DEFALUT value)
+CREATE TABLE mytests(
+	id INT,
+	name TEXT(50) DEFAULT 'nothing to show'
+);
+
+_________________________________________________________________
+
+=>VARIABLES
+
+SHOW VARIABLES;

@@ -1,0 +1,42 @@
+=>ORDER BY (Key word) Use for Sorting Our Results
+
+OREDER BY Syntax
+
+Method1
+SELECT * FROM tablename
+ORDER BY columnname ASC|DESC
+
+
+____________________________________
+=>EXERCISE
+
+SELECT * FROM students;
+
+SELECT * FROM students ORDER BY firstname ASC;
+
+SELECT * FROM students ORDER BY firstname DESC;
+
+*Default is ASC
+SELECT * FROM students ORDER BY firstname;
+
+SELECT * FROM students ORDER BY gender;
+
+SELECT * FROM students
+WHERE city = "yangon" ORDER BY firstname ASC;
+
+SELECT * FROM employees ORDER BY name,age;
+
+SELECT * FROM employees ORDER BY name,age ASC;
+
+SELECT name,age,salary FROM employees ORDER BY name,age ASC;
+
+SELECT name,age,salary FROM employees ORDER BY 2;
+
+SELECT name,age,salary FROM employees ORDER BY 2 DESC;
+
+SELECT name,age,salary FROM employees ORDER BY 3 DESC;
+
+SELECT * FROM employees ORDER BY 2 DESC;
+
+
+24ASC

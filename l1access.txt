@@ -1,0 +1,54 @@
+SERVER LOGIN
+
+CMD
+		
+username =ssh dlt@dltmyanmar.com
+		 =ssh dlt@157.230.240.154
+		 =ssh wdf6880@157.230.240.154
+		 =ssh kotha@dltmyanmar.com
+		 =ssh wdf6880@dltmyanmar.com
+		 =ssh wdf6880@137.184.248.101
+password =datalandtechnology
+
+PUTTY
+
+Host Name = dltmyanmar.com
+Host Name=157.230.240.154
+Host Name=137.184.248.101
+
+Login as:wdf6880
+Password:datalandtechnology
+
+WINSCP
+
+Host Name=dltmyanmar.com
+username=dlt
+password=datalandtechnology
+
+Host Name=157.230.240.154
+username=dlt
+password=datalandtechnology
+
+Host Name=137.184.248.101
+username=dlt
+password=datalandtechnology
+
+Login as:dlt
+Password:datalandtechnology
+
+______________________________________________________
+
+DATABASE LOGIN
+
+(Method)
+mysql -uWDF6880 -p
+datalandtechnology
+
+(Method 2)
+mysql -u WDF6880 -p
+
+
+exit
+
+______________________________________________________
+

@@ -1,0 +1,191 @@
+=> Comments
+
+(i)Single Line Comment
+# comment here (Space or Without space is OK)
+-- comment here (Space needed)
+/* comment here*/
+
+(ii)Multi Line Comments
+/*
+
+	multi comment here
+	multi comment here
+
+*/
+
+
+SELECT (1+1); #comment here
+SELECT (1+1); # comment here
+SELECT (1+1); -- comment here
+SELECT (1+1); /*comment here*/
+SELECT (1+1); /* comment here */
+
+______________________________________________________
+
+=> Create User
+
+=Syntax
+CREATE USER usename IDENTIFIED BY 'password';
+
+CREATE USER 'kotha001'@'localhost' IDENTIFIED BY '123456789';
+
+CREATE USER 'nann002'@'localhost' IDENTIFIED BY '123456789';
+
+\q
+mysql -u nann002 -p'123456789';
+SELECT USER();
+SHOW DATABASES;
+
+=>Existing Users
+SELECT USER FROM mysql.user;
+SELECT USER FROM mysql.user WHERE USER LIKE 'k%';
+
+\q
+mysql -u nann002 -p '123456789';
+
+Note: ALL PRIVILEGES (it gives all privileges to new user)
+	  CREATE (create databases and create tables)
+	  DROP (drop databases and drop tables)
+
+
+	  INSERT (specific table)
+	  SELECT (specific table)
+	  UPDATE (specific table)
+	  DELETE (specific table)
+
+
+=Syntax:  (databasename.tablename)
+GRANT ALL PRIVILEGES ON *.* TO 'username'@'localhost';
+FLUSH PRIVILEGES;
+
+GRANT CREATE,SELECT,INSERT ON *.* TO 'username'@'localhost';
+FLUSH PRIVILEGES;
+
+*error = Access Denied (cus nann002@localhost was subaccount)
+GRANT ALL PRIVILEGES ON *.* TO 'nann002'@'localhost';
+
+SHOW GRANTS FOR 'nann002'@'localhost';
+
+\q
+mysql -u root -p 'sqlpassword20201A';
+
+GRANT ALL PRIVILEGES ON *.* TO 'nann002'@'localhost';
+FLUSH PRIVILEGES;
+
+SHOW GRANTS FOR 'nann002'@'localhost';
+
+\q
+mysql -u nann002 -p '123456789';
+SELECT USER();
+SHOW DATABASES; -- result = only 1 sample database
+SELECT USER FROM mysql.user; -- result = denied
+
+___________________
+
+mysql -u root -p 'sqlpassword20201A';
+
+CREATE USER 'nann002'@'localhost' IDENTIFIED BY '123456789';
+
+SELECT USER FROM mysql.user WHERE USER LIKE 'n%';
+
+SHOW GRANTS FOR 'nann002'@'localhost';
+
+GRANT CREATE,SELECT,INSERT ON *.* TO 'nann002'@'localhost';
+FLUSH PRIVILEGES;
+
+SHOW GRANTS FOR 'nann002'@'localhost';
+
+\q
+mysql -u nann002 -p '123456789';
+SELECT USER();
+SHOW DATABASES; -- result = only 1 sample database
+SELECT USER FROM mysql.user;
+
+USE nann002;
+SHOW TABLES;
+
+*error = denied
+DROP TABLE IF EXISTS workers;
+
+SELECT * FROM workers;
+_______________________________________________________________
+=> DROP USER
+
+Method 1
+
+=Syntax : (single)
+DROP USER 'username'@'localhost';
+
+
+=Syntax : (multi)
+DROP USER 'username1'@'localhost','username2'@'localhost';
+
+
+Method 2
+DELETE FROM mysql.user USER = 'nann002';
+
+SELECT USER FROM mysql.user WHERE USER LIKE 'n%';
+DROP USER 'nann002'@'localhost';
+SELECT USER FROM mysql.user WHERE USER LIKE 'n%';
+
+___________________________________________________________________
+
+=> RENAME USER
+=Syntax : (Single)
+RENAME USER oldname TO newname;
+
+
+=Syntax : (Multi0)
+RENAME USER oldname1 TO newname1, oldname2 TO newname2;
+
+
+\q
+mysql -u root -p 'sqlpassword20201A';
+
+
+SELECT USER FROM mysql.user WHERE USER LIKE 'n%';
+
+RENAME USER 'nann002'@'localhost','nann001'@'localhost';
+
+SELECT USER FROM mysql.user WHERE USER LIKE 'n%';
+
+\q
+mysql -u nann002 -p '123456789';
+
+mysql -u nann001 -p '123456789';
+
+SELECT USER();
+
+___________________________________________
+
+=> CHANGE USER PASSWORD
+
+=Syntax :
+
+ALTER USER 'username'@'localhost'  IDENTIFIED BY 'newpassword';
+
+=By Root User | Sub Account
+\q
+mysql -u WDF5165 -p 'datalandtechnology'
+
+SELECT USER FROM mysql.user WHERE USER LIKE 'n%';
+
+ALTER USER 'nann001'@'localhost'  IDENTIFIED BY '111111';
+
+*error
+mysql -u nann001 -p '123456789';
+
+mysql -u nann001 -p '111111';
+
+-----
+
+By self
+
+SELECT USER();
+ALTER USER 'nann001'@'localhost'  IDENTIFIED BY '222222';
+
+
+*error
+mysql -u nann001 -p '111111';
+
+mysql -u nann001 -p '222222';

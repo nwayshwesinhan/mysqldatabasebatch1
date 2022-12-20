@@ -1,0 +1,115 @@
+=>Full Join(UNION JOIN)
+
+=Syntax:
+
+SELECT columns
+FROM table1
+LEFT JOIN table2
+ON table1.column = table2.column
+UNION
+SELECT columns
+FROM table1
+RIGHT JOIN table2
+ON table1.column = table2.column;
+
+
+
+_____________________________________________________
+
+=>LEFT JOIN
+SELECT * FROM customers
+LEFT JOIN orders
+ON customers.id = orders.customer_id;
+
+=>RIGHT JOIN
+SELECT * FROM customers
+RIGHT JOIN orders
+ON customers.id = orders.customer_id;
+
+=>error
+SELECT * FROM customers
+FULL JOIN orders
+ON customers.id = orders.customer_id;
+
+
+=>UNION
+SELECT * FROM customers
+LEFT JOIN orders
+ON customers.id = orders.customer_id
+UNION
+SELECT * FROM customers
+RIGHT JOIN orders
+ON customers.id = orders.customer_id;
+
+
+SELECT * FROM customers
+LEFT JOIN orders
+ON (customers.id = orders.customer_id)
+UNION
+SELECT * FROM customers
+RIGHT JOIN orders
+ON (customers.id = orders.customer_id);
+
+
+SELECT * FROM orders
+LEFT JOIN customers
+ON (customers.id = orders.customer_id)
+UNION
+SELECT * FROM orders
+RIGHT JOIN customers
+ON (customers.id = orders.customer_id);
+
+
+SELECT * FROM orders
+RIGHT JOIN customers
+ON customers.id = orders.customer_id
+UNION
+SELECT * FROM orders
+LEFT JOIN customers
+ON customers.id = orders.customer_id;
+
+
+SELECT firstname,lastname,orderdate,amount FROM orders
+RIGHT JOIN customers
+ON customers.id = orders.customer_id
+UNION
+SELECT firstname,lastname,orderdate,amount FROM orders
+LEFT JOIN customers
+ON customers.id = orders.customer_id;
+
+
+
+SELECT customers.firstname,customers.lastname,orders.orderdate,orders.amount FROM orders
+RIGHT JOIN customers
+ON customers.id = orders.customer_id
+UNION
+SELECT firstname,lastname,orderdate,amount FROM orders
+LEFT JOIN customers
+ON customers.id = orders.customer_id;
+
+
+---------------------------------------------------
+
+=>UNION ALL
+
+SELECT * FROM customers
+LEFT JOIN orders
+ON customers.id = orders.customer_id
+UNION ALL
+SELECT * FROM customers
+RIGHT JOIN orders
+ON customers.id = orders.customer_id;
+
+
+SELECT * FROM orders
+LEFT JOIN  customers
+ON customers.id = orders.customer_id
+UNION ALL
+SELECT * FROM orders
+RIGHT JOIN customers
+ON customers.id = orders.customer_id;
+
+_____________________________________________________
+
+
+sql new pass=sata2022

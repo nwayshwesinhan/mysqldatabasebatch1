@@ -1,0 +1,169 @@
+=>SELECT DATA BY USING AND , OR and NOT
+
+AND OR operators are used to filter data , records based
+
+AND operator display a record TRUE
+OR operator display a record TRUE
+NOT operator display a record NOT TRUE
+
+WHERE clause can be combinded with AND , OR , NOT operators
+
+
+=>AND Syntax
+
+Method 1 AND Syntax
+SELECT * FROM tablename
+WHERE country="myanmar" AND city="yangon";
+
+
+Method 2 AND Syntax
+SELECT column1,column2,.....
+FORM tablename
+WHERE country="myanmar" AND city="yangon";
+
+
+
+
+=>OR Syntax
+
+Method 1 OR Syntax
+SELECT * FROM tablename
+WHERE city="yangon" OR city="mandalay";
+
+
+Method 2 OR Syntax
+SELECT column1,column2,.....
+FORM tablename
+WHERE city="yangon" OR city="mandalay";
+
+
+
+=>NOT Syntax
+
+
+Method 1 NOT Syntax
+SELECT * FROM tablename
+WHERE NOT country="thailand";
+
+
+Method 2 OR Syntax
+SELECT column1,column2,.....
+FORM tablename
+WHERE NOT country="thailand";
+
+
+
+__________________________________________________
+
+=>EXERCISE 
+
+SELECT * FROM employees;
+
+SELECT name,age,city FROM employees;
+
+SELECT employeeid,name,salary
+FROM employees
+WHERE salary > 200000;
+
+SELECT employeeid,name,salary
+FROM employees
+WHERE salary < 200000;
+
+SELECT employeeid,name,salary
+FROM employees
+WHERE salary >= 200000;
+
+SELECT employeeid,name,salary
+FROM employees
+WHERE salary <= 200000;
+
+SELECT employeeid,name,salary
+FROM employees
+WHERE salary <> 200000;
+
+SELECT employeeid,name,salary
+FROM employees
+WHERE salary = 200000;
+
+SELECT employeeid,name,salary
+FROM employees
+WHERE salary LIKE 200000;
+
+SELECT *
+FROM employees
+WHERE salary <= 200000;
+
+
+SELECT employeeid,name,age,salary
+FROM employees
+WHERE salary > 300000 AND age > 30;
+
+SELECT employeeid,name,age,salary
+FROM employees
+WHERE salary > 300000 AND age >= 30;
+
+SELECT employeeid,name,age,salary
+FROM employees
+WHERE salary > 300000 AND age >= 20 AND city="yangon";
+
+__________________________________________________
+
+
+=>OR EXE
+
+SELECT employeeid,name,age,salary
+FROM employees
+WHERE salary > 300000 AND age > 20 AND city="yangon";
+
+SELECT employeeid,name,age,salary,city
+FROM employees
+WHERE salary > 300000 OR age > 20 AND city="yangon";
+
+SELECT employeeid,name,age,salary,city
+FROM employees
+WHERE salary > 300000 AND age > 20 OR city="yangon";
+
+__________________________________________________
+
+
+=>NOT EXE
+
+SELECT employeeid,name,age,salary,city
+FROM employees
+WHERE NOT city="mandalay";
+
+SELECT employeeid,name,age,salary,city
+FROM employees
+WHERE NOT age < 25;
+
+SELECT employeeid,name,age,salary,city
+FROM employees
+WHERE NOT age <= 25;
+
+
+
+
+
+=>AND NOT EXE
+
+SELECT employeeid,name,age,salary,city
+FROM employees
+WHERE NOT city="mandalay";
+
+
+SELECT employeeid,name,age,salary,city
+FROM employees
+WHERE NOT city="mandalay" AND NOT city="yangon";
+__________________________________________________
+
+
+Conparison Operators
+> greater than
+< less than
+>= greater than or equal
+<= less than or equal
+<> greater than or less than 
+
+Like Operator
+
+23LIKE

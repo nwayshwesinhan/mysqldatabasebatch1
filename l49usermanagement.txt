@@ -1,0 +1,351 @@
+=>Comments
+
+(i)Single Line Comment
+#comment here (Space or Without space is OK)
+-- comment here (Space needed)
+/*comment here*/ (Space or Without space is OK)
+
+
+(ii)Multi Line Comments
+/*
+
+	multi comment one
+	multi comment two
+
+*/	
+
+
+
+
+SELECT (1+1); #comment here
+SELECT (1+1); # comment here
+SELECT (1+1); -- comment here
+SELECT (1+1); /*comment here*/
+SELECT (1+1); /* comment here*/
+
+
+____________________________________________________________________
+
+=Create User
+
+=Syntax :
+CREATE USER user IDENTIFIED BY 'password';
+
+CREATE USER 'kotha001'@'localhost' IDENTIFIED BY '123456789';
+
+\q
+mysql -u kotha001 -p'123456789';
+SELECT USER();
+SHOW DATABASES; -- result = only 1 sample database
+SELECT USER FROM mysql.user; -- result = denied
+
+
+=Existing Users
+SELECT USER FROM mysql.user;
+SELECT USER FROM mysql.user WHERE USER LIKE 'k%';
+
+
+\q
+mysql -u kotha -p'datalandtechnology';
+
+
+Note : ALL PRIVILEGES ( it gives all privilleges to new user )
+		CREATE ( create database and create table )
+		DROP ( drop databases and drop tables )
+
+		INSERT (specific table)
+		SELECT (specific table)
+		UPDATE (specific table)
+		DELETE (specific table)
+
+=Syntax : (databsename.tablename)
+GRANT ALL PRIVILEGES ON *.* TO 'username'@'localhost';
+FLUSH PRIVILEGES;
+
+GRANT CREATE,SELECT,INSERT ON *.* 'username'@'localhost';
+FLUSH PRIVILEGES;
+
+
+*error = Access Denied
+GRANT ALL PRIVILEGES ON *.* TO 'kotha001'@'localhost';
+
+
+SHOW GRANT FOR 'kotha'@'localhost';
+SHOW GRANT FOR 'kotha001'@'localhost';
+
+
+\q
+mysql -u root -p'sqlpassword20201A';
+
+GRANT ALL PRIVILEGES ON *.* TO 'kotha001'@'localhost';
+FLUSH PRIVILEGES;
+
+SHOW GRANTS FOR 'kotha001'@'localhost';
+
+
+\q
+mysql -u kotha001 -p'123456789';
+SELECT USER();
+SHOW DATABASES; -- result = only 1 sample database
+SELECT USER FROM mysql.user; -- result = denied
+
+------------
+
+mysql -u root -p'sqlpassword20201A';
+
+CREATE USER 'kotha001'@'localhost' IDENTIFIED BY '123456789';
+
+SELECT USER FROM mysql.user WHERE USER LIKE 'k%';
+
+SHOW GRANT FOR 'kotha001'@'localhost';
+
+
+GRANT CREATE,SELECT,INSERT ON *.* TO 'kotha001'@'localhost';
+FLUSH PRIVILEGES;
+
+SHOW GRANTS FOR 'kotha001'@'localhost';
+
+
+
+\q
+mysql -u kotha001 -p'123456789';
+SELECT USER();
+SHOW DATABASES; -- result = only 1 sample database
+SELECT USER FROM mysql.user; 
+
+USE kotha007;
+SHOW TABLES;
+
+*error = denied
+DROP TABLE IF EXISTS workers;
+
+SELECT * FROM workers;
+
+
+____________________________________________________________________
+
+=>DROP USER
+
+Method 1
+=Syntax : ( Single )
+DROP USER 'username'@'localhost';
+
+
+=Syntax : ( Multi )
+DROP USER 'username1'@'localhost','username2'@'localhost';
+
+
+Method 2
+DELETE FROM mysql.user USER = 'kotha001';
+
+
+SELECT USER FROM mysql.user WHERE USER LIKE 'k%';
+DROP USER 'kotha001'@'localhost';
+SELECT USER FROM mysql.user WHERE USER LIKE 'k%';
+
+____________________________________________________________________
+
+
+=>RENAME USER
+
+=Syntax : ( Single )
+RENAME USER oldname TO newname;
+
+
+=Syntax : ( Multi )
+RENAME USER oldname1 TO newname1, oldname2 TO newname2;
+
+\q
+mysql - u root -p'sqlpassword20221A';
+
+SELECT USER FROM mysql.user WHERE USER LIKE 'k%';
+
+RENAME USER 'kotha001'@'localhost' TO 'kotha002'@'localhost';
+
+SELECT USER FROM mysql.user WHERE USER LIKE 'k%';
+
+*error
+\q
+mysql -u kotha001 -p '123456789'
+
+
+mysql -u kotha002 -p '123456789'
+
+SELECT USER();
+___________________________________________________________________
+
+=CHANGE PASSWORD
+
+=Syntax :
+ALTER USER 'username'@'localhost' IDENTIFIED BY 'newpassword';
+
+=By Root User | Sub Account
+\q
+mysql -u kotha -p'datalandtechnology'
+
+SELECT USER FROM mysql.user WHERE USER LIKE 'k%';
+
+ALTER USER 'kotha002'@'localhost' IDENTIFIED BY '11111';
+
+*error
+\q
+mysql -u kotha002 -p'123456789'
+
+mysql -u kotha002 -p'11111'
+
+------
+
+=By Self
+
+SELECT USER();
+ALTER USER 'kotha002'@'localhost' IDENTIFIED BY '22222';
+
+*error
+\q
+mysql -u kotha002 -p'11111'
+
+mysql -u kotha002 -p'22222'
+
+___________________________________________________________________
+
+=>Account Lock
+
+=Syntax : ( By new user )
+CREATE USER username IDENTIFIED BY 'password' ACCOUNT LOCK;
+
+
+=Syntax : ( To existing user )
+ALTER USER username IDENTIFIED BY 'password' ACCOUNT LOCK;
+
+
+SELECT USER FROM mysql.user WHERE USER LIKE 'k%';
+
+
+=By user new
+CREATE USER 'kotha003'@'localhost' IDENTIFIED BY '123456789' ACCOUNT LOCK;
+
+SELECT USER FROM mysql.user WHERE USER LIKE 'k%';
+
+
+
+*error = Account is locked
+\q
+mysql -u kotha003 -p'123456789'
+
+
+mysql -u kotha -p'datalandtechnology'
+
+
+SELECT USER,ACCOUNT_LOCKED FROM mysql.user; 
+SELECT USER,ACCOUNT_LOCKED FROM mysql.user WHERE USER LIKE 'k%';
+
+------
+
+=To existing user
+
+SELECT USER,ACCOUNT_LOCKED FROM mysql.user WHERE USER LIKE 'k%';
+
+ALTER USER 'kotha002'@'localhost' ACCOUNT LOCK;
+
+SELECT USER,ACCOUNT_LOCKED FROM mysql.user WHERE USER LIKE 'k%';
+
+*error = Account is locked
+\q
+mysql -u kotha002 -p'11111'
+
+___________________________________________________________________
+
+=>Account Unlock
+
+=Syntax ( Single )
+ALTER USER username ACCOUNT UNLOCK;
+
+
+=Syntax ( Multi )
+ALTER USER username1,username2,... ACCOUNT UNLOCK;
+
+mysql -u kotha -p'datalandtechnology'
+
+SELECT USER,ACCOUNT_LOCKED FROM mysql.user WHERE USER LIKE 'k%';
+
+ALTER USER 'kotha001'@'localhost' ACCOUNT LOCK;
+
+SELECT USER,ACCOUNT_LOCKED FROM mysql.user WHERE USER LIKE 'k%';
+
+ALTER USER 'kotha002'@'localhost','kotha003'@'localhost' ACCOUNT UNLOCK;
+
+SELECT USER,ACCOUNT_LOCKED FROM mysql.user WHERE USER LIKE 'k%';
+
+\q
+mysql -u kotha003 -p'123456789'
+
+___________________________________________________________________
+
+
+
+
+
+
+
+
+
+=>REVOKE
+
+\q
+mysql -u root -p'sqlpassword20201A'
+
+SHOW GRANTS FOR 'kotha003'@'localhost';
+
+GRANT CREATE,SELECT,INSERT ON *.* TO 'kotha003'@'localhost';
+FLUSH PRIVILEGES;
+
+SHOW GRANTS FOR 'kotha003'@'localhost';
+
+
+\q
+mysql -u kotha003 -p'123456789'
+
+SHOW DATABASES;
+
+\q
+mysql -u root -p'sqlpassword20201A'
+
+REVOKE ALL PRIVILEGES ON *.* FROM 'kotha003'@'localhost';
+
+SHOW GRANTS FOR 'kotha003'@'localhost';
+
+___________________________________________________________________
+
+=>GRANT Vs REVOKE
+
+\q
+mysql -u kotha001 -p'123456789'
+SHOW GRANTS FOR 'kotha001'@'localhost';
+
+
+REVOKE ALL PRIVILEGES ON *.* FROM 'kotha001'@'localhost';
+
+SHOW GRANTS FOR 'kotha001'@'localhost';
+
+SHOW DATABASES;
+
+\q
+mysql -u root -p'sqlpassword20201A'
+
+GRANT ALL PRIVILEGES ON kotha007.workers TO 'kotha001'@'localhost';
+FLUSH PRIVILEGES;
+
+SHOW GRANTS FOR 'kotha001'@'localhost';
+
+\q
+mysql -u kotha001 -p'123456789'
+
+SHOW DATABASES;
+USE kotha007;
+SHOW TABLES;
+
+___________________________________________________________________
+
+
+26UM
+2RK

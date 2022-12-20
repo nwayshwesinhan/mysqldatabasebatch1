@@ -1,0 +1,89 @@
+=>Different Types of DATA Relationships
+(i)One to One Relationship (1:1)
+(ii)One to Many Relationship (1:n)
+(iii)Many to Many Relationship (n:n)
+
+
+(i)One to One Relationship
+
+	Note : an employee has exactly one wifi password and ever wifi passcode belongs to exactly one employee
+	one record in table A belong to exactly one record in table B
+	husband & wife
+	citizen & passport
+
+
+(ii)One to Many Relationship
+	one record in table A has one or many related records in table B
+	customers & orders
+	mother & children
+
+
+
+(iii)Many to Many Relationship (n:n)
+	One record in table A has one or may related tables in table B by using Dummy table.
+
+
+
+
+=Exercise ( DLT DB Project)
+
+CREATE TABLE IF NOT EXISTS students(
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+regcode VARCHAR(10) NOT NULL UNIQUE,
+firstname VARCHAR(20) NOT NULL,
+lastname VARCHAR(20),
+gender ENUM('1','2') NOT NULL,
+dob DATE NOT NULL,
+email VARCHAR(50) NOT NULL UNIQUE,
+password VARCHAR(255) NOT NULL,
+status ENUM('Enable','Disable','Terminate') DEFAULT 'Enable',
+created_at TIMESTAMP DEFAULT NOW(),
+updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+DESC students;
+
+INSERT INTO students(regcode,firstname,lastname,gender,dob,email,password)
+VALUES ('WDF1001','aung','aung',1,'2000-1-31','aungaung@gmail.com',MD5(SHA1('12345'))),
+('WDF1002','su','su',2,'2000-2-28','susu@gmail.com',MD5(SHA1('12345')));
+
+SELECT * FROM students;
+
+
+
+
+CREATE TABLE studentinfos(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	coverphoto VARCHAR(255),
+	profilephoto VARCHAR(255),
+	nrcnumber VARCHAR(50) NOT NULL UNIQUE,
+	phone VARCHAR(15) NOT NULL UNIQUE,
+	address VARCHAR(255) NOT NULL,
+	student_id INT,
+	FOREIGN KEY(student_id) REFERENCES students(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+DESC studentinfos;
+
+INSERT INTO studentinfos(nrcnumber,phone,address,student_id)
+VALUES ('10/MaLaMa(N)123456','09123456','no19,myittar st,mawlamyine',1),
+('10/MaLaMa(N)123457','09678999','no42,thidar st,mawlamyine',2);
+
+SELECT * FROM studentinfos;
+
+
+CREATE TABLE IF NOT EXISTS teachers(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(30) NOT NULL,
+	phone VARCHAR(15) NOT NULL UNIQUE,
+	email VARCHAR(50) NOT NULL UNIQUE
+);
+
+DESC teachers;
+
+INSERT INTO teachers(name,phone,email)
+VALUE ('ko tha','09123456','kotha@gmail.com');
+
+SELECT * FROM teachers;
+
+6RS
